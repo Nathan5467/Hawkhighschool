@@ -9,7 +9,7 @@
 	url = https://github.com/OpenZeppelin/openzeppelin-contracts
 [submodule "lib/foundry-devops"]
 	path = lib/foundry-devops
-	url = https://github.com/chainaccelorg/foundry-devops
+	url = https://github.com/Cyfrin/foundry-devops
 [submodule "lib/Foundry-devops"]
 	path = lib/Foundry-devops
 	url = https://github.com/Cyfrin/Foundry-devops
