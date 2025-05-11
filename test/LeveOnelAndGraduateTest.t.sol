@@ -154,6 +154,36 @@ contract LevelOneAndGraduateTest is Test {
         _;
     }
 
+    function test_NotReviewCountIncreased() public {
+        vm.startPrank(clara);
+        usdc.approve(address(levelOneProxy), schoolFees);
+        levelOneProxy.enroll();
+        vm.stopPrank();
+
+        // check for student add
+        assert(levelOneProxy.getTotalStudents() == 1);
+
+        // add teacher
+        vm.startPrank(principal);
+        levelOneProxy.addTeacher(alice);
+        vm.stopPrank();
+
+        // check for teacher add
+        assert(levelOneProxy.getTotalTeachers() == 1);
+
+        vm.warp(block.timestamp + 1 weeks);
+        vm.prank(alice);
+        levelOneProxy.giveReview(clara, false);
+        assert(levelOneProxy.studentScore(clara) == 90);
+
+        vm.warp(block.timestamp + 1 weeks);
+        vm.prank(alice);
+        levelOneProxy.giveReview(clara, false);
+        assert(levelOneProxy.studentScore(clara) == 80);
+
+        // Failing assertion: expected 2 reviews, got 0
+        assertEq(levelOneProxy.reviewCount(clara), 0);
+    }
     function test_confirm_can_give_review() public schoolInSession {
         vm.warp(block.timestamp + 1 weeks);
 
